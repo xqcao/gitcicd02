@@ -14,8 +14,16 @@ jobs:
         image: nginx
         ports:
           - 80:80
+      svc-02:
+        image: chapinme/gitflaskapp:16
+        ports:
+          - 5001:5001
     steps:
       # - name: check container running
       #   run: http://localhost:80
       - name: run curl
         run: curl http://localhost:80
+      - name: run curl user svc
+        run: curl http://localhost:5001
+      - name: get all users
+        run: curl http://localhost:5001/api/users
