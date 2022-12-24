@@ -1,0 +1,21 @@
+name: git cicd
+on:
+  push:
+    branches:
+      - main
+      - dev1
+env:
+  DOCKER_USERNAME: xqcao
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    services:
+      svc-01:
+        image: nginx
+        ports:
+          - 80:80
+    steps:
+      - name: check container running
+        run: http://localhost:80
+      - name: run curl
+        run: curl http://localhost:80
