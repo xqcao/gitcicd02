@@ -9,6 +9,8 @@ env:
 jobs:
   job1:
     runs-on: ubuntu-latest
+    outputs:
+      all_users: ${{steps.helloabc.outputs.ALL_USERS}}
     services:
       svc-01:
         image: nginx
@@ -26,4 +28,11 @@ jobs:
       - name: run curl user svc
         run: curl http://localhost:5001
       - name: get all users
-        run: curl http://localhost:5001/api/users
+        id: helloabc
+        run: 'echo ALL_USERS=$(curl http://localhost:5001/api/users -H "Accept: application/json")  >> $GITHUB_OUTPUT'
+  job2:
+    runs-on: ubuntu-latest
+    needs: job1
+    steps:
+      - name: get user
+        run: echo ${{needs.job1.outputs.all_users}}
